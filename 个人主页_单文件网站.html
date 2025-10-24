@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="auto">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>个人主页 | 段智超</title>
+  <!-- 基础 SEO 元信息（可替换为你的信息） -->
+  <meta name="description" content="段智超的个人主页：视觉传达 / 概念设计 / 插画 / 3D 学习作品与项目集。" />
+  <meta name="keywords" content="个人主页, 作品集, 视觉传达, 概念设计, 插画, 3D, Portfolio" />
+  <meta name="author" content="段智超" />
+  <!-- 为不同系统主题分别设置浏览器地址栏颜色，避免首屏闪烁 -->
+  <meta name="theme-color" content="#0ea5e9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0ea5e9" media="(prefers-color-scheme: dark)">
+  
+  <!-- Open Graph / Twitter 预览图（分享时使用） -->
+  <!-- REPLACE_TEXT: OG_TITLE -->
+  <meta property="og:title" content="段智超 · 个人主页" />
+  <meta property="og:description" content="视觉传达 / 概念设计 / 插画 / 3D 学习作品与项目集。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://example.com" />
+  <!-- REPLACE_IMG: OG_IMAGE -->
+  <meta property="og:image" content="assets/og-cover.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- REPLACE_IMG: FAVICON -->
+  <link rel="icon" href="assets/favicon.svg">
+
+  <style>
+    /* ============================================
+       主题变量与基色体系（通过 JS 动态修改 --brand 即可全站换色）
+       ============================================ */
+    :root{
+      --brand: #0ea5e9;          /* 主题主色：在中国色面板里切换或通过 localStorage 记忆 */
+      --brand-2: #22c55e;        /* 点缀色：由主色推导或手动指定，用于渐变与强调 */
+
+      /* 背景体系：用品牌色轻微染色，避免纯白单调 */
+      --bg-base: #ffffff;        /* 纯基底（不直接用，避免硬切换） */
+      --bg: color-mix(in oklab, var(--brand) 4%, var(--bg-base));
+      --bg-wash: color-mix(in oklab, var(--brand) 16%, var(--bg-base));
+      --bg-wash-2: color-mix(in oklab, var(--brand-2) 12%, var(--bg-base));
+
+      --text: #0b1220;
+      --muted: #64748b;
+      --card: #f8fafc;
+      --border: #e5e7eb;
+      --shadow: 0 10px 30px rgba(2,8,23,.08);
+
+      /* 从主色推导的和谐色阶（按钮/输入等组件） */
+      --tone-1: color-mix(in oklab, var(--brand) 16%, var(--bg));
+      --tone-2: color-mix(in oklab, var(--brand) 10%, var(--bg));
+      --tone-ghost: color-mix(in oklab, var(--brand) 8%, transparent);
+      --ring: color-mix(in oklab, var(--brand) 60%, transparent);
+      color-scheme: light dark; /* 让表单控件等跟随明暗 */
+    }
+
+    /* 现代轻量 Reset 与基础排版 */
+    *,*::before,*::after{ box-sizing: border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans CJK SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Helvetica, Arial, sans-serif; 
+      /* 叠加柔和的径向背景，随品牌色轻染 */
+      background:
+        radial-gradient(1200px 800px at 20% -10%, var(--bg-wash) 0%, transparent 60%),
+        radial-gradient(1000px 700px at 120% -20%, var(--bg-wash-2) 0%, transparent 55%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background-color .3s ease, color .2s ease;
+    }
+    img{ max-width:100%; display:block; }
+    a{ color: inherit; text-decoration: none; }
+    :where(h1,h2,h3){ line-height:1.2; margin:0 0 .6rem; }
+    .wrap{ width:min(1100px, 92vw); margin-inline:auto; }
+    .muted{ color: var(--muted); }
+
+    /* Header / 导航条（粘顶 + 玻璃磨砂） */
+    header{ position: sticky; top:0; z-index:50; backdrop-filter: saturate(1.2) blur(8px); background: color-mix(in oklab, var(--bg) 80%, transparent); border-bottom:1px solid var(--border); }
+    .nav{ display:flex; align-items:center; justify-content:space-between; padding: .9rem 0; gap: .75rem; }
+    .brand{ display:flex; align-items:center; gap:.6rem; font-weight:700; letter-spacing:.2px; }
+    .logo{ width:32px; height:32px; border-radius:50%; /* 简化的 logo 光泽球体 */
+      background: radial-gradient(60% 60% at 30% 30%, var(--brand) 0%, #60a5fa 60%, transparent 61%),
+                  conic-gradient(from 180deg, color-mix(in oklab, var(--brand) 70%, black) 0 40%, var(--brand) 40% 70%, #38bdf8 70% 100%);
+      box-shadow: 0 0 0 2px color-mix(in oklab, var(--brand) 30%, transparent), inset 0 0 20px rgba(255,255,255,.35);
+    }
+    nav ul{ list-style:none; display:flex; gap:1rem; padding:0; margin:0; }
+    nav a{ padding:.5rem .7rem; border-radius: 999px; transition: background .2s ease,color .2s ease; }
+    nav a:hover{ background: var(--tone-1); }
+    nav a[aria-current="page"]{ background: var(--tone-1); font-weight:700; }
+
+    .btn{ display:inline-flex; align-items:center; gap:.5rem; padding:.7rem 1rem; border-radius: 999px; border:1px solid var(--border); box-shadow: var(--shadow); transition: transform .15s ease, background .2s ease; cursor:pointer; font-weight:600; }
+    .btn:hover{ transform: translateY(-1px); }
+    .btn-primary{ background: linear-gradient(135deg, var(--brand), color-mix(in oklab, var(--brand) 70%, white)); border-color: transparent; color:white; }
+    .btn-ghost{ background: transparent; border-color: var(--tone-1); }
+
+    /* Hero / 首屏布局 */
+    .hero{ padding: 6rem 0 4rem; display:grid; grid-template-columns: 1.1fr .9fr; gap: 2rem; align-items:center; }
+    .kicker{ display:inline-flex; align-items:center; gap:.5rem; padding:.25rem .6rem; border:1px dashed var(--tone-1); border-radius:999px; color: var(--muted); font-size:.9rem; }
+    .title{ font-size: clamp(2rem, 3.5vw + 1rem, 3.5rem); font-weight:800; letter-spacing:.3px; }
+    .title .accent{ background: linear-gradient(90deg, var(--brand), var(--brand-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero p{ margin: 1rem 0 1.5rem; }
+    .avatar{ width:min(360px, 60vw); aspect-ratio:1; border-radius: 24px; border:1px solid var(--border); 
+      /* 用渐变模拟头像占位背景，未提供头像时也不突兀 */
+      background: radial-gradient(70% 70% at 30% 30%, color-mix(in oklab, var(--brand) 20%, var(--card)), var(--card)),
+                  conic-gradient(from 200deg, color-mix(in oklab, var(--brand) 25%, transparent) 0 20%, transparent 20% 100%);
+      box-shadow: var(--shadow); position:relative; overflow:hidden; }
+
+    /* 卡片与网格 */
+    .grid{ display:grid; grid-template-columns: repeat(12, 1fr); gap: 1rem; }
+    .card{ grid-column: span 4; background: var(--card); border:1px solid var(--border); border-radius: 16px; padding: 1rem; box-shadow: var(--shadow); transition: transform .15s ease, box-shadow .2s ease; }
+    .card:hover{ transform: translateY(-2px); box-shadow: 0 18px 44px rgba(2,8,23,.15); }
+    .card .thumb{ aspect-ratio: 16/9; border-radius: 12px; border:1px solid var(--border); background:
+      repeating-linear-gradient(45deg, color-mix(in oklab, var(--brand) 12%, transparent) 0 10px, transparent 10px 20px),
+      linear-gradient(180deg, color-mix(in oklab, var(--brand) 8%, var(--card)), var(--card));
+      display:grid; place-items:center; font-size:.9rem; color:var(--muted);
+    }
+    .tags{ display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.6rem; }
+    .tag{ padding:.2rem .6rem; border-radius:999px; border:1px solid var(--tone-1); font-size:.8rem; color:var(--muted); background: var(--tone-2); }
+
+    /* Section 标题区 */
+    .section-head{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:1.25rem; }
+    .section-head h2{ font-size: clamp(1.4rem, 1.2vw + 1rem, 2rem); }
+
+    /* 作品筛选与搜索 */
+    .filters{ display:flex; gap:.5rem; flex-wrap:wrap; margin:.5rem 0 1rem; }
+    .filters .filter-search{ flex:1 1 220px; padding:.55rem .7rem; border:1px solid var(--border); border-radius:10px; background:var(--bg); color:var(--text); }
+    .btn[data-filter][aria-pressed="true"]{ background: var(--tone-1); }
+
+    /* 作品详情 Modal */
+    .modal{ position:fixed; inset:0; display:grid; place-items:center; z-index:80; }
+    .modal[hidden]{ display:none; }
+    .modal-backdrop{ position:absolute; inset:0; background: rgba(2,8,23,.55); backdrop-filter: blur(4px); }
+    .modal-dialog{ position:relative; width:min(1000px, 92vw); background: var(--card); border:1px solid var(--border); border-radius:16px; box-shadow: var(--shadow); padding: 1rem; display:grid; grid-template-columns: 1.5fr 1fr; gap:1rem; }
+    .modal-close{ position:absolute; top:.6rem; right:.6rem; border:1px solid var(--border); border-radius: 8px; background: var(--tone-2); padding:.3rem .5rem; cursor:pointer; }
+    .modal-img{ width:100%; border-radius:12px; border:1px solid var(--border); aspect-ratio: 16/10; object-fit:cover; }
+    .modal-actions{ display:flex; gap:.5rem; margin-top:.75rem; }
+    @media (max-width: 900px){ .modal-dialog{ grid-template-columns: 1fr; } }
+
+    /* 技能标签 */
+    .skills{ display:flex; gap:.75rem; flex-wrap:wrap; }
+    .skill{ padding:.5rem .7rem; border:1px solid var(--tone-1); border-radius: 999px; background: var(--tone-2); }
+
+    /* 时间线 */
+    .timeline{ border-left:2px solid var(--border); margin-left: .5rem; padding-left: 1rem; display:grid; gap:1.2rem; }
+    .tl-item{ position:relative; }
+    .tl-item::before{ content:""; position:absolute; left:-1.15rem; top:.2rem; width:.7rem; height:.7rem; border-radius:50%; background: var(--brand); box-shadow:0 0 0 3px color-mix(in oklab, var(--brand) 25%, transparent); }
+    .tl-meta{ font-size:.9rem; color:var(--muted); }
+
+    /* 页脚 */
+    footer{ border-top:1px solid var(--border); padding: 2.5rem 0; }
+    .socials{ display:flex; gap:.75rem; }
+    .socials a{ display:inline-flex; align-items:center; gap:.5rem; border:1px solid var(--border); padding:.5rem .7rem; border-radius: 999px; }
+
+    /* 精选横幅 + 缩略图 */
+    .hero-banner{ margin: 1rem 0 0; }
+    .hero-banner figure{ margin:0; }
+    .hero-banner img{ width:100%; aspect-ratio: 21/9; object-fit: cover; border-radius: 16px; border:1px solid var(--border); box-shadow: var(--shadow); }
+    .hero-banner figcaption{ display:flex; align-items:center; justify-content:space-between; gap:.75rem; margin-top:.5rem; color:var(--muted); font-size:.9rem; }
+    .thumb-img{ width:100%; aspect-ratio:16/9; object-fit:cover; border-radius:12px; border:1px solid var(--border); display:block; }
+
+    /* 响应式断点 */
+    @media (max-width: 920px){ .hero{ grid-template-columns: 1fr; gap:2rem; } .card{ grid-column: span 6; } }
+    @media (max-width: 640px){ nav ul{ display:none; } .card{ grid-column: span 12; } .hero{ padding-top: 4.5rem; } }
+  </style>
+
+  <style>
+    /* 中国色配色面板样式（折叠在独立浮层中，点击“配色”按钮切换显隐） */
+    .palette-panel{position:fixed;top:64px;right:max(16px,4vw);z-index:60;background:var(--card);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);padding:12px 12px 14px;width:min(720px,92vw)}
+    .palette-head{display:flex;align-items:center;justify-content:space-between;margin:6px 4px 10px;color:var(--muted)}
+    .swatches{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:.5rem}
+    .swatch{block-size:36px;border-radius:10px;border:1px solid var(--border);background:var(--c,#ddd);cursor:pointer;position:relative}
+    .swatch:focus{outline:2px solid color-mix(in oklab,var(--brand) 60%, transparent)}
+    .swatch::after{content:attr(data-hex);position:absolute;inset:auto 6px 6px auto;font-size:10px;color:#0008;background:#fff8;padding:0 4px;border-radius:6px}
+    .palette-actions{display:flex;gap:.5rem;margin-top:.75rem;align-items:center;flex-wrap:wrap}
+    .palette-actions input{flex:1 1 160px;padding:.55rem .7rem;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--text)}
+
+    /* 全局可访问性：聚焦环与选区色 */
+    *:focus-visible{ outline:2px solid var(--ring); outline-offset:3px; }
+    ::selection{ background: var(--tone-1); color: var(--text); }
+  </style>
+
+  <script>
+    // 在 DOM 解析前尽早应用主题，避免首屏“闪白/闪黑”
+    (function(){
+      try{
+        const saved = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const mode = saved || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', mode);
+      }catch(e){}
+    })();
+  </script>
+</head>
+<body>
+  <!-- 跳转到主内容（可访问性） -->
+  <a href="#main" class="wrap" style="position:absolute;left:8px;top:-40px;">跳到正文</a>
+
+  <header>
+    <div class="wrap nav" role="navigation" aria-label="主导航">
+      <div class="brand" aria-label="站点标识">
+        <span class="logo" aria-hidden="true"></span>
+        <!-- REPLACE_TEXT: BRAND_NAME -->
+        <span>段智超</span>
+      </div>
+      <nav>
+        <ul>
+          <!-- 使用 Hash 路由（#/about 等），无需服务端配合即可切换“页面” -->
+          <li><a href="#/about">关于</a></li>
+          <li><a href="#/projects">作品</a></li>
+          <li><a href="#/skills">技能</a></li>
+          <li><a href="#/resume">履历</a></li>
+          <li><a href="#/contact">联系</a></li>
+        </ul>
+      </nav>
+      <button id="colorToggle" class="btn btn-ghost" aria-label="切换主题色（中国色）" title="中国色配色">
+        <!-- 仅作图标展示，无语义 -->
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18h1.5a1.5 1.5 0 0 0 0-3H13a2 2 0 0 1-2-2 1 1 0 0 1 1-1h2a2.5 2.5 0 0 0 0-5h-1a1 1 0 0 1-1-1 3 3 0 0 1 3-3" stroke="currentColor" stroke-width="1.6"/></svg>
+        <span class="muted">配色</span>
+      </button>
+      <button id="themeToggle" class="btn btn-ghost" aria-label="切换明暗模式" title="切换明暗模式">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 1 0 9.79 9.79Z" stroke="currentColor" stroke-width="1.6"/></svg>
+        <span class="muted">主题</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 中国色主题色面板（点击右上角“配色”按钮显示/隐藏） -->
+  <div id="palettePanel" class="palette-panel" hidden>
+    <div class="palette-head"><strong>主题色</strong><span class="muted">选择色块或贴 HEX</span></div>
+    <div id="swatches" class="swatches" role="listbox" aria-label="主题色候选"></div>
+    <div class="palette-actions">
+      <input id="hexInput" type="text" inputmode="text" placeholder="#0ea5e9" aria-label="输入中国色 HEX">
+      <button class="btn" id="applyHex">应用</button>
+      <button class="btn" id="randomHex">随机</button>
+      <button class="btn btn-ghost" id="resetHex">重置</button>
+    </div>
+  </div>
+
+  <main id="main" class="wrap" tabindex="-1">
+    <!-- 首屏 Hero（默认 home 页面） -->
+    <section class="hero" data-page="home" aria-label="首屏">
+      <div>
+        <span class="kicker">你好！这里是 <strong>个人主页</strong></span>
+        <h1 class="title">我是 <!-- REPLACE_TEXT: HERO_NAME --><span class="accent">段智超</span>，一名专注于 <em>视觉传达 / 概念设计 / 插画</em> 的创作者。</h1>
+        <p class="muted">正在探索「原创生物设定、3D 与引擎实操、包装与品牌视觉」的交叉表达。这里记录我的作品、项目与学习路线。</p>
+        <div style="display:flex; gap:.75rem; flex-wrap:wrap; margin-top:1rem;">
+          <a class="btn btn-primary" href="#/projects">查看作品</a>
+          <a class="btn" href="#/contact">联系我</a>
+          <a class="btn" href="./resume.pdf" download>下载简历</a>
+        </div>
+      </div>
+      <!-- REPLACE_IMG: AVATAR（如无图片会显示渐变占位） -->
+      <div class="avatar" style="background-image:url('assets/C.C.jpg'); background-size:cover; background-position:center;" aria-label="头像"></div>
+    </section>
+
+    <!-- 精选作品横幅（示例） -->
+    <section class="hero-banner" data-page="home" aria-label="精选作品横幅">
+      <figure>
+        <!-- REPLACE_IMG: HERO_BANNER -->
+        <img src="assets/featured-market.png" alt="拱廊市集环境概念插画，阳光洒入石拱与摊位" loading="lazy" decoding="async" fetchpriority="low">
+        <figcaption>
+          <span>精选作品：拱廊市集 · 环境概念</span>
+          <a class="btn btn-ghost" href="#/projects" aria-label="跳转到作品集">查看更多</a>
+        </figcaption>
+      </figure>
+    </section>
+
+    <!-- 关于我 页面 -->
+    <section id="about" data-page="about" aria-label="关于我" hidden>
+      <div class="section-head">
+        <h2>关于我</h2>
+        <span class="muted">个人介绍 / 能力侧写 / 现状</span>
+      </div>
+      <div class="grid">
+        <div class="card" style="grid-column: span 7;">
+          <h3>你好，我是段智超</h3>
+          <p class="muted">视觉传达与概念设计方向，喜欢把抽象主题转译为可读的视觉系统与可落地的产品形态。近期在做「原创生物设定」与「包装/品牌」两个方向的系列化项目，同时补强 3D 与引擎工作流。</p>
+          <p class="muted">我注重过程表达：从调研、草图、结构与材质语言，到说明图、打样与复盘，尽量把关键决策可视化与文档化。</p>
+        </div>
+        <div class="card" style="grid-column: span 5;">
+          <h3>我的优势</h3>
+          <ul class="muted" style="margin:0; padding-left:1.1rem;">
+            <li>视觉系统化：能从品牌到落地物料统一风格</li>
+            <li>快速上手 3D：Blender 渲染、材质与光影表现</li>
+            <li>概念设定思维：世界观/角色/道具的结构化表达</li>
+            <li>表达与交付：说明图、打样验证与复盘</li>
+          </ul>
+        </div>
+        <div class="card" style="grid-column: span 7;">
+          <h3>常用工具</h3>
+          <div class="skills">
+            <span class="skill">Photoshop</span>
+            <span class="skill">Illustrator</span>
+            <span class="skill">After Effects</span>
+            <span class="skill">Blender</span>
+            <span class="skill">Substance 3D</span>
+            <span class="skill">Figma</span>
+            <span class="skill">Unity/UE 入门</span>
+          </div>
+        </div>
+        <div class="card" style="grid-column: span 5;">
+          <h3>近期目标</h3>
+          <ul class="muted" style="margin:0; padding-left:1.1rem;">
+            <li>完善「原创生物设定」项目流程与文档</li>
+            <li>拓展 3D 与实时渲染（Unity/UE）的工作流</li>
+            <li>打磨两套包装/品牌的完整落地案例</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 作品 页面（含筛选、搜索与 Modal） -->
+    <section id="projects" data-page="projects" aria-label="作品" hidden>
+      <div class="section-head">
+        <h2>作品</h2>
+        <a class="muted" href="#">下载作品集 PDF →</a>
+      </div>
+      <!-- 筛选与搜索：按钮通过 [data-filter] 标记，JS 根据 tag 文本过滤 -->
+      <div class="filters" aria-label="筛选与搜索">
+        <button class="btn btn-ghost" data-filter="all" aria-pressed="true">全部</button>
+        <button class="btn btn-ghost" data-filter="产品可视化">产品可视化</button>
+        <button class="btn btn-ghost" data-filter="工业语法">工业语法</button>
+        <button class="btn btn-ghost" data-filter="材质研究">材质研究</button>
+        <button class="btn btn-ghost" data-filter="概念设定">概念设定</button>
+        <button class="btn btn-ghost" data-filter="三视图">三视图</button>
+        <button class="btn btn-ghost" data-filter="玩法验证">玩法验证</button>
+        <button class="btn btn-ghost" data-filter="品牌包装">品牌包装</button>
+        <button class="btn btn-ghost" data-filter="插画系统">插画系统</button>
+        <button class="btn btn-ghost" data-filter="打样验证">打样验证</button>
+        <input class="filter-search" type="search" placeholder="搜索项目/标签..." aria-label="搜索项目">
+      </div>
+      <div class="grid">
+        <!-- 每张卡片包含 data-slug 与 data-tags，供 Modal 与过滤使用 -->
+        <article class="card" aria-labelledby="p1" data-slug="shengxiao" data-tags="产品可视化,工业语法,材质研究">
+          <!-- REPLACE_IMG: PROJECT_1 -->
+          <img class="thumb-img" src="assets/SHENGXIAO.png" alt="项目 1 缩略图" loading="lazy" decoding="async">
+          <h3 id="p1">十二生肖草本挂饰 · 系列产品</h3>
+          <p class="muted">以中草药粉末压制材质为核心，探索「抽象符号 × 工艺落地」的产品化路径。含渲染图 / 结构图 / 包装与应用。</p>
+          <div class="tags"><span class="tag">产品可视化</span><span class="tag">工业语法</span><span class="tag">材质研究</span></div>
+          <p style="margin-top:.8rem;"><a class="btn" href="#/project/shengxiao" data-goto-project="shengxiao">查看项目</a></p>
+        </article>
+        <article class="card" aria-labelledby="p2" data-slug="evolution" data-tags="概念设定,三视图,玩法验证">
+          <!-- REPLACE_IMG: PROJECT_2 -->
+          <img class="thumb-img" src="assets/3沸沸石.png" alt="项目 2 缩略图" loading="lazy" decoding="async">
+          <h3 id="p2">原创生物设定 · 三阶段进化</h3>
+          <p class="muted">围绕「石核/苔藓/守护者」主题构建世界观，提供概念图、三视图与回合制对战数值 Demo。</p>
+          <div class="tags"><span class="tag">概念设定</span><span class="tag">三视图</span><span class="tag">玩法验证</span></div>
+          <p style="margin-top:.8rem;"><a class="btn" href="#/project/evolution" data-goto-project="evolution">查看项目</a></p>
+        </article>
+        <article class="card" aria-labelledby="p3" data-slug="dami" data-tags="品牌包装,插画系统,打样验证">
+          <!-- REPLACE_IMG: PROJECT_3 -->
+          <img class="thumb-img" src="assets/DAMI.jpg" alt="项目 3 缩略图" loading="lazy" decoding="async">
+          <h3 id="p3">敦煌大米包装 · 视觉系统</h3>
+          <p class="muted">以敦煌花卉语汇重构品牌视觉，包含包装结构、烫金绘画风格与陈列物料。</p>
+          <div class="tags"><span class="tag">品牌包装</span><span class="tag">插画系统</span><span class="tag">打样验证</span></div>
+          <p style="margin-top:.8rem;"><a class="btn" href="#/project/dami" data-goto-project="dami">查看项目</a></p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 作品详情 Modal（点击卡片或“查看项目”弹出） -->
+    <div id="projectModal" class="modal" hidden aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="modal-backdrop" data-close-modal></div>
+      <div class="modal-dialog" role="document">
+        <button class="modal-close" aria-label="关闭" data-close-modal>×</button>
+        <img class="modal-img" data-m-img src="" alt="作品大图">
+        <div class="modal-body">
+          <h3 data-m-title>作品标题</h3>
+          <p class="muted" data-m-desc>作品简介</p>
+          <div class="tags" data-m-tags></div>
+          <div class="modal-actions">
+            <button class="btn" data-m-prev>上一个</button>
+            <button class="btn" data-m-next>下一个</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 技能 页面 -->
+    <section id="skills" data-page="skills" aria-label="技能" hidden>
+      <div class="section-head">
+        <h2>技能</h2>
+        <span class="muted">工具 / 方向 / 方法论</span>
+      </div>
+      <div class="skills">
+        <span class="skill">Photoshop</span>
+        <span class="skill">Illustrator</span>
+        <span class="skill">After Effects</span>
+        <span class="skill">Blender</span>
+        <span class="skill">Unity/UE 入门</span>
+        <span class="skill">产品渲染</span>
+        <span class="skill">概念设定</span>
+        <span class="skill">版式与信息架构</span>
+        <span class="skill">Prompt 设计</span>
+        <span class="skill">前端基础</span>
+      </div>
+    </section>
+
+    <!-- 履历 页面（时间线） -->
+    <section id="resume" data-page="resume" aria-label="履历" hidden>
+      <div class="section-head">
+        <h2>履历</h2>
+        <a class="muted" href="./resume.pdf" download>下载 PDF</a>
+      </div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div><strong>设计实习 / 品牌委托</strong> · 远程</div>
+          <div class="tl-meta">2025.06 – 至今</div>
+          <p class="muted">负责竞品调研、视觉主风格探索、包装与周边延展，产出设计说明与落地物料。</p>
+        </div>
+        <div class="tl-item">
+          <div><strong>视觉传达本科</strong> · 建筑与艺术学院</div>
+          <div class="tl-meta">2022 – 2026（预计）</div>
+          <p class="muted">系统学习视觉基础、品牌与插画方向，参与校内外竞赛与展览。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 联系 页面 -->
+    <section id="contact" data-page="contact" aria-label="联系" hidden>
+      <div class="section-head">
+        <h2>联系</h2>
+        <span class="muted">我乐于交流合作与反馈</span>
+      </div>
+      <!-- REPLACE_TEXT: EMAIL -->
+      <p>邮箱：<a href="mailto:hello@example.com">hello@example.com</a> · 微信/QQ：请私信获取</p>
+      <div style="display:flex; gap:.75rem; flex-wrap:wrap; margin-top: .7rem;">
+        <!-- REPLACE_TEXT: EMAIL_BTN -->
+        <a class="btn btn-primary" href="mailto:hello@example.com?subject=%E5%90%88%E4%BD%9C%E6%88%96%E5%8F%8D%E9%A6%88">给我发邮件</a>
+        <a class="btn" href="#" aria-label="更多社媒">查看社媒</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap" style="display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap;">
+      <!-- REPLACE_TEXT: FOOTER_NAME -->
+      <small class="muted">© <span id="y"></span> 段智超. 保留所有权利。</small>
+      <div class="socials" aria-label="社交链接">
+        <a href="#" aria-label="GitHub">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2C6.48 2 2 6.58 2 12.26c0 4.51 2.87 8.33 6.84 9.68.5.1.68-.22.68-.49 0-.24-.01-.86-.01-1.69-2.78.62-3.36-1.37-3.36-1.37-.46-1.2-1.12-1.52-1.12-1.52-.92-.64.07-.63.07-.63 1.02.07 1.56 1.07 1.56 1.07 .9 1.58 2.36 1.12 2.93.85.09-.67.35-1.12.64-1.38-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.74-.1-.26-.45-1.31.1-2.73 0 0 .85-.28 2.8 1.05a9.4 9.4 0 0 1 5.1 0c1.96-1.33 2.8-1.05 2.8-1.05.55 1.42.2 2.47.1 2.73.64.71 1.03 1.62 1.03 2.74 0 3.94-2.34 4.81-4.57 5.07.36.32.69.95.69 1.92 0 1.39-.01 2.51-.01 2.85 0 .28.18.61.69.5A10.01 10.01 0 0 0 22 12.26C22 6.58 17.52 2 12 2Z" fill="currentColor"/></svg>
+          <span class="muted">GitHub</span>
+        </a>
+        <a href="#" aria-label="ArtStation">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3.3 17.8 10.5 5.6c.4-.7 1.6-.7 2 0l7.2 12.2c.4.7-.1 1.6-1 1.6H4.3c-.9 0-1.4-.9-1-1.6Zm11-1.4-3.4-5.8-3.3 5.8h6.7Z" fill="currentColor"/></svg>
+          <span class="muted">ArtStation</span>
+        </a>
+        <a href="#" aria-label="Behance">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M14.7 7.3h4.7v1.6h-4.7V7.3Zm8 5.1c0 3.7-2.3 6.2-5.7 6.2-3.2 0-5.5-2.3-5.5-5.9 0-3.8 2.5-6.2 5.8-6.2 2.5 0 4.4 1.3 5.1 3.5h-2.7c-.3-.8-1.2-1.3-2.4-1.3-1.8 0-3 1.5-3 3.8 0 2.2 1.2 3.7 3 3.7 1.5 0 2.5-.8 2.8-2h-2.8v-1.8h5.4v.9Zm-17.2 6H2V6.3h6.7c2.9 0 4.6 1.5 4.6 3.9 0 1.6-.8 2.8-2.2 3.4 1.8.5 2.8 1.9 2.8 3.8 0 2.6-1.9 4.1-5.1 4.1h-.4Zm-2.4-8h3.8c1.5 0 2.3-.7 2.3-1.9 0-1.2-.9-1.9-2.4-1.9H3.1v3.8Zm0 6.3h4.1c1.8 0 2.9-.7 2.9-2 0-1.3-1-2-2.8-2H3.1v4Z" fill="currentColor"/></svg>
+          <span class="muted">Behance</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ==========================
+       基础交互：主题切换 / 年份 / 入场动效
+       ========================== */
+    // 主题切换：在 <html data-theme> 上切换 light/dark，并持久化到 localStorage
+    document.getElementById('themeToggle').addEventListener('click', function(){
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      try{ localStorage.setItem('theme', next); }catch(e){}
+    });
+
+    // 页脚年份自动更新
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    // 入场显现动画：使用 IntersectionObserver 仅对进入视口的元素做一次淡入
+    const appear = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.animate(
+            [ {opacity:0, transform:'translateY(8px)'}, {opacity:1, transform:'translateY(0)'} ],
+            {duration:420, easing:'cubic-bezier(.2,.6,.2,1)', fill:'both'}
+          );
+          appear.unobserve(e.target);
+        }
+      });
+    },{threshold:.12});
+    document.querySelectorAll('section, .card').forEach(el=>appear.observe(el));
+
+    /* ==========================
+       作品筛选 / 搜索（前端纯文本匹配）
+       ========================== */
+    const cards = Array.from(document.querySelectorAll('#projects .card'));
+    const filterBtns = document.querySelectorAll('.filters [data-filter]');
+    const searchInput = document.querySelector('.filters .filter-search');
+    let activeTag = 'all';
+
+    function applyFilter(){
+      const q = (searchInput?.value || '').trim().toLowerCase();
+      cards.forEach(card=>{
+        const tags = (card.dataset.tags || '').toLowerCase();
+        const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
+        const hitTag = activeTag==='all' || tags.includes(activeTag.toLowerCase());
+        const hitQ = !q || tags.includes(q) || title.includes(q);
+        card.style.display = (hitTag && hitQ) ? '' : 'none';
+      });
+    }
+    filterBtns.forEach(b=>{
+      b.addEventListener('click', ()=>{
+        filterBtns.forEach(x=>x.setAttribute('aria-pressed','false'));
+        b.setAttribute('aria-pressed','true');
+        activeTag = b.dataset.filter;
+        applyFilter();
+      });
+    });
+    searchInput?.addEventListener('input', applyFilter);
+
+    /* ==========================
+       作品 Modal（数据 -> 视图）
+       - 通过 PROJECTS 数据源按 slug 查找并填充内容
+       - 支持左右切换 / ESC 关闭 / 背景点击关闭
+       ========================== */
+    const PROJECTS = {
+      'shengxiao': { title:'十二生肖草本挂饰 · 系列产品', img:'assets/SHENGXIAO.png', tags:['产品可视化','工业语法','材质研究'], desc:'以中草药粉末压制材质为核心，探索「抽象符号 × 工艺落地」的产品化路径。含渲染图 / 结构图 / 包装与应用。' },
+      'evolution': { title:'原创生物设定 · 三阶段进化', img:'assets/3沸沸石.png', tags:['概念设定','三视图','玩法验证'], desc:'围绕「石核/苔藓/守护者」主题构建世界观，提供概念图、三视图与回合制对战数值 Demo。' },
+      'dami': { title:'敦煌大米包装 · 视觉系统', img:'assets/DAMI.jpg', tags:['品牌包装','插画系统','打样验证'], desc:'以敦煌花卉语汇重构品牌视觉，包含包装结构、烫金绘画风格与陈列物料。' }
+    };
+    const order = Object.keys(PROJECTS);
+
+    const modal = document.getElementById('projectModal');
+    const mImg = modal.querySelector('[data-m-img]');
+    const mTitle = modal.querySelector('[data-m-title]');
+    const mDesc = modal.querySelector('[data-m-desc]');
+    const mTags = modal.querySelector('[data-m-tags]');
+    const mPrev = modal.querySelector('[data-m-prev]');
+    const mNext = modal.querySelector('[data-m-next]');
+    let currentIndex = 0; // 记录当前展示的作品索引
+
+    function openModalBySlug(slug){
+      const idx = order.indexOf(slug); if(idx<0) return;
+      currentIndex = idx;
+      const d = PROJECTS[slug];
+      mTitle.textContent = d.title;
+      mDesc.textContent = d.desc;
+      mImg.src = d.img; mImg.alt = d.title;
+      mTags.innerHTML = d.tags.map(t=>`<span class="tag">${t}</span>`).join('');
+      modal.hidden = false; modal.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden'; // 打开时禁止背景滚动
+    }
+    function closeModal(){ modal.hidden = true; modal.setAttribute('aria-hidden','true'); document.body.style.overflow = ''; }
+    function showPrev(){ currentIndex = (currentIndex - 1 + order.length) % order.length; openModalBySlug(order[currentIndex]); }
+    function showNext(){ currentIndex = (currentIndex + 1) % order.length; openModalBySlug(order[currentIndex]); }
+
+    modal.addEventListener('click', (e)=>{ if(e.target.matches('[data-close-modal], .modal-backdrop')) closeModal(); });
+    document.addEventListener('keydown', (e)=>{ if(modal.hidden) return; if(e.key==='Escape') closeModal(); if(e.key==='ArrowLeft') showPrev(); if(e.key==='ArrowRight') showNext(); });
+    mPrev.addEventListener('click', showPrev); mNext.addEventListener('click', showNext);
+
+    // 绑定卡片 & 按钮打开 Modal（委托到卡片元素）
+    document.querySelectorAll('#projects .card .thumb-img').forEach(img=>{
+      img.style.cursor='zoom-in';
+      img.addEventListener('click', ()=>{ const slug = img.closest('.card')?.dataset.slug; if(slug) openModalBySlug(slug); });
+    });
+    document.querySelectorAll('[data-goto-project]').forEach(a=>{
+      a.addEventListener('click', (e)=>{ e.preventDefault(); const slug = a.closest('.card')?.dataset.slug || a.dataset.gotoProject; if(slug) openModalBySlug(slug); });
+    });
+
+    /* ==========================
+       Hash Router（多页面切换）
+       - 仅使用 location.hash，无需后端
+       - 路由规则：#/about | #/projects | ...
+       - 支持 #/project/:slug 直接打开某个作品的弹窗
+       ========================== */
+    const ROUTE_TITLE = { home:'首页', about:'关于', projects:'作品', skills:'技能', resume:'履历', contact:'联系' };
+    const PAGES = Array.from(document.querySelectorAll('[data-page]'));
+
+    function setActiveNav(route){
+      document.querySelectorAll('nav a').forEach(a=>{
+        const href = a.getAttribute('href');
+        const isActive = href === '#/' + route;
+        if(isActive){ a.setAttribute('aria-current','page'); } else { a.removeAttribute('aria-current'); }
+      });
+    }
+
+    function showPage(route){
+      PAGES.forEach(sec=>{ sec.hidden = sec.dataset.page !== route; });
+      if(route==='home'){ // 首屏由两个 data-page="home" 的分区组成
+        PAGES.forEach(sec=>{ if(sec.dataset.page==='home') sec.hidden=false; });
+      }
+      setActiveNav(route);
+      const baseTitle = '个人主页 | 段智超';
+      document.title = ROUTE_TITLE[route] ? (ROUTE_TITLE[route] + ' - ' + baseTitle) : baseTitle;
+      window.scrollTo({top:0, behavior:'instant'});
+    }
+
+    function parseHash(){
+      const hash = location.hash.replace(/^#\/?/, ''); // 去掉前导 # 或 #/
+      if(!hash) return {name:'home'};
+      const parts = hash.split('/');
+      if(parts[0]==='project' && parts[1]) return {name:'project', slug:parts[1]};
+      return {name: parts[0]};
+    }
+
+    function onRouteChange(){
+      const {name, slug} = parseHash();
+      if(name==='project'){
+        showPage('projects');
+        openModalBySlug(slug);
+      }else{
+        showPage(ROUTE_TITLE[name] ? name : 'home');
+      }
+    }
+
+    window.addEventListener('hashchange', onRouteChange);
+    onRouteChange(); // 首次进入按地址栏决定页面
+  </script>
+
+  <script>
+  /* ==========================
+     中国色主题色：面板 + 应用
+     - 通过设置 :root 的 --brand / --brand-2 进行主题传播
+     - 选色支持：预设色块、手动 HEX、随机与重置
+     - 颜色派生：deriveAccent 从主色推导点缀色（更和谐）
+     ========================== */
+  (function(){
+    // 常用中国色（可扩充）。灰阶排除在自动随机之外，避免主题过暗。
+    const colors=['#C3272B','#E54D42','#ED6D3D','#F59E0B','#F7C242','#D4A76A','#8C704B','#22C55E','#16A34A','#10A19D','#0EA5E9','#38BDF8','#2563EB','#2E4E7E','#7C3AED','#A855F7','#DB2777','#F472B6','#E11D48','#D6ECF0','#94A3B8','#0B1220'];
+
+    const panel=document.getElementById('palettePanel');
+    const toggle=document.getElementById('colorToggle');
+    const swatches=document.getElementById('swatches');
+    const inp=document.getElementById('hexInput');
+    const applyBtn=document.getElementById('applyHex');
+    const randBtn=document.getElementById('randomHex');
+    const resetBtn=document.getElementById('resetHex');
+
+    // --- 颜色转换工具：HEX <-> HSL（便于做点缀色推导） ---
+    function hexToHsl(H){
+      let r=0,g=0,b=0; // 兼容 #RGB 与 #RRGGBB
+      if(H.length==4){ r="0x"+H[1]+H[1]; g="0x"+H[2]+H[2]; b="0x"+H[3]+H[3]; }
+      else{ r="0x"+H[1]+H[2]; g="0x"+H[3]+H[4]; b="0x"+H[5]+H[6]; }
+      r/=255; g/=255; b/=255;
+      const cmin=Math.min(r,g,b), cmax=Math.max(r,g,b), delta=cmax-cmin;
+      let h=0,s=0,l=(cmax+cmin)/2; // 亮度先算出来
+      if(delta!==0){ // 避免除 0
+        if(cmax===r) h=((g-b)/delta)%6; else if(cmax===g) h=(b-r)/delta+2; else h=(r-g)/delta+4;
+        h=Math.round(h*60); if(h<0)h+=360;
+        s=delta/(1-Math.abs(2*l-1));
+      }
+      return { h, s:+(s*100).toFixed(1), l:+(l*100).toFixed(1) };
+    }
+    function hslToHex(h,s,l){
+      s/=100; l/=100; const c=(1-Math.abs(2*l-1))*s; const x=c*(1-Math.abs((h/60)%2-1)); const m=l-c/2;
+      let r=0,g=0,b=0;
+      if(h<60){r=c;g=x;} else if(h<120){r=x;g=c;} else if(h<180){g=c;b=x;} else if(h<240){g=x;b=c;} else if(h<300){r=x;b=c;} else{r=c;b=x;}
+      r=Math.round((r+m)*255).toString(16).padStart(2,'0');
+      g=Math.round((g+m)*255).toString(16).padStart(2,'0');
+      b=Math.round((b+m)*255).toString(16).padStart(2,'0');
+      return '#'+r+g+b;
+    }
+    function deriveAccent(hex){ // 根据主色偏移 HSL 的 H/S/L，得到更亮的点缀色
+      const {h,s,l}=hexToHsl(hex);
+      return hslToHex((h+20)%360, Math.min(100, s+5), Math.min(95, l+8));
+    }
+
+    // 将品牌色应用到 CSS 变量，并写入 theme-color，必要时持久化
+    function applyBrand(hex,remember=true){
+      document.documentElement.style.setProperty('--brand',hex);
+      const b2=deriveAccent(hex);
+      document.documentElement.style.setProperty('--brand-2',b2);
+      document.querySelectorAll('meta[name="theme-color"]').forEach(m=>m.setAttribute('content',hex));
+      if(remember){ try{localStorage.setItem('brand',hex); localStorage.setItem('brand2',b2);}catch(e){} }
+    }
+
+    // 构建色块网格（无框架，纯原生）
+    function build(){
+      swatches.innerHTML='';
+      colors.forEach(hex=>{
+        const b=document.createElement('button');
+        b.className='swatch';
+        b.style.setProperty('--c',hex);
+        b.setAttribute('data-hex',hex); // 小角标展示 HEX
+        b.title=hex;
+        b.addEventListener('click',()=>applyBrand(hex));
+        swatches.appendChild(b);
+      });
+    }
+
+    // 面板开关与点击外部关闭（避免遮挡）
+    if(toggle){ toggle.addEventListener('click',()=>{panel.hidden=!panel.hidden;}); }
+    document.addEventListener('click', (e)=>{ 
+      if (panel.hidden) return;
+      const inToggle = toggle && toggle.contains(e.target);
+      if (!panel.contains(e.target) && !inToggle) {
+        panel.hidden = true;
+      }
+    });
+
+    // 手动输入 / 随机 / 重置
+    applyBtn&&applyBtn.addEventListener('click',()=>{ const hex=inp.value.trim(); if(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(hex)){ applyBrand(hex);} else { alert('请输入有效的十六进制颜色，如 #0ea5e9'); }});
+    randBtn&&randBtn.addEventListener('click',()=>{ const hex=colors[Math.floor(Math.random()*colors.length)]; applyBrand(hex); });
+    resetBtn&&resetBtn.addEventListener('click',()=>{ applyBrand('#0ea5e9'); });
+
+    // 恢复上次的主题色
+    const saved=localStorage.getItem('brand'); if(saved){ applyBrand(saved,false);} 
+    build();
+  })();
+  </script>
+
+  <!-- 结构化数据（可替换为你的真实信息，用于搜索引擎展示） -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "段智超",
+    "url": "https://example.com",
+    "jobTitle": "视觉传达 / 概念设计",
+    "email": "mailto:hello@example.com",
+    "sameAs": [
+      "https://www.artstation.com/yourname",
+      "https://www.behance.net/yourname",
+      "https://github.com/yourname"
+    ]
+  }
+  </script>
+
+  <script>
+    /* ==========================
+       轻量自检（测试用例）
+       - 在控制台输出 ✔/✖，帮助你快速确认关键功能是否可用
+       - 不影响页面可见内容
+       ========================== */
+    (function(){
+      const T=(name,ok)=>console[ok?'log':'error'](`TEST ${ok?'✔':'✖'} ${name}`);
+      // 基础结构
+      T('页面容器存在', !!document.getElementById('main'));
+      ['about','projects','skills','resume','contact'].forEach(p=>T('存在页面: '+p, !!document.querySelector(`[data-page="${p}"]`)));
+      // 路由可工作
+      T('路由函数有效 - 能解析 hash', typeof location.hash === 'string');
+      // 作品 Modal 组件存在
+      const modal = document.getElementById('projectModal');
+      T('作品弹窗存在', !!modal && !!modal.querySelector('[data-m-img]'));
+      // 配色面板可见性控制存在
+      T('配色面板存在', !!document.getElementById('palettePanel'));
+      // 品牌色变量可写
+      const before=getComputedStyle(document.documentElement).getPropertyValue('--brand').trim();
+      document.documentElement.style.setProperty('--brand','#ff0000');
+      const after=getComputedStyle(document.documentElement).getPropertyValue('--brand').trim();
+      T('品牌色变量可修改', after.toLowerCase()==='#ff0000');
+      // 还原
+      document.documentElement.style.setProperty('--brand', before||'#0ea5e9');
+    })();
+  </script>
+</body>
+</html>
